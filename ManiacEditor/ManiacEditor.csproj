@@ -63,6 +63,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutBox.Designer.cs">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Actions\ActionAddDeleteEntities.cs" />
     <Compile Include="Actions\ActionDummy.cs" />
     <Compile Include="Actions\ActionEntityPropertyChange.cs" />
@@ -100,6 +106,12 @@
     <Compile Include="EditorEntities.cs" />
     <Compile Include="EditorEntity.cs" />
     <Compile Include="EditorLayer.cs" />
+    <Compile Include="OptionBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OptionBox.Designer.cs">
+      <DependentUpon>OptionBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Reflector.cs" />
     <Compile Include="SceneSelect.cs">
       <SubType>Form</SubType>
@@ -144,6 +156,9 @@
     <Compile Include="VBCreator.cs" />
     <Compile Include="VertexBuffer.cs" />
     <Compile Include="Vertices.cs" />
+    <EmbeddedResource Include="AboutBox.resx">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EntitiesToolbar.resx">
       <DependentUpon>EntitiesToolbar.cs</DependentUpon>
     </EmbeddedResource>
@@ -152,6 +167,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Editor.resx">
       <DependentUpon>Editor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OptionBox.resx">
+      <DependentUpon>OptionBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SceneSelect.resx">
       <DependentUpon>SceneSelect.cs</DependentUpon>

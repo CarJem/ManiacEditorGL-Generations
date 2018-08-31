@@ -1296,7 +1296,7 @@ namespace ManiacEditor
             if (GraphicPanel.MeasuredFPS != lastFPS)
             {
                 lastFPS = GraphicPanel.MeasuredFPS;
-                this.Text = String.Format("{0} FPS", lastFPS);
+                this.Text = String.Format("Maniac Editor - Generations Edition (OpenGL Revolution) - " + "{0} FPS", lastFPS);
             }
 
 
@@ -1842,6 +1842,22 @@ namespace ManiacEditor
         private void ShowFGHigher_Click_1(object sender, EventArgs e)
         {
             LayerShowButton_Click(ShowFGHigher, "Layer FG Higher");
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var aboutBox = new AboutBox())
+            {
+                aboutBox.ShowDialog();
+            }
+        }
+
+        private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var optionBox = new OptionBox())
+            {
+                optionBox.ShowDialog();
+            }
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
