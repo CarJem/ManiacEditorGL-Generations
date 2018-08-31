@@ -1,7 +1,6 @@
-# Maniac Editor - Sonic Mania Scene Editor
+# Maniac Editor - Generations Edition - Sonic Mania Level/Scene Editor (OpenGL Port Fork)
 
-### [Download (BETA)](https://github.com/koolkdev/ManiacEditor/releases/latest)
+Original Work by Kooldev
+Continued by CarJem Generations and campbellsonic.
 
-
-## Status
-[![Build status](https://ci.appveyor.com/api/projects/status/fpgsoc21l14lb743/branch/master?svg=true)](https://ci.appveyor.com/project/koolkdev/maniaceditor/branch/master)
+If you the common user, nothing to see here.... yet. Soon this will be the future Maniac Editor - Generations Edition.
