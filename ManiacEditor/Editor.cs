@@ -35,6 +35,9 @@ namespace ManiacEditor
         //double Zoom = 1;
         int ZoomLevel = 0;
 
+        bool FGLowerEnabled = true;
+        bool FGHigherEnabled = true;
+
         string DataDirectory;
 
         GameConfig GameConfig;
@@ -133,8 +136,14 @@ namespace ManiacEditor
 
             ShowFGHigh.Enabled = enabled;
             ShowFGLow.Enabled = enabled;
-            ShowFGHigher.Enabled = enabled;
-            ShowFGLower.Enabled = enabled;
+            if (FGHigherEnabled == true)
+            {
+                ShowFGHigher.Enabled = enabled;
+            }
+            if (FGLowerEnabled == true)
+            {
+                ShowFGLower.Enabled = enabled;
+            }
             ShowEntities.Enabled = enabled;
 
             Save.Enabled = enabled;
@@ -166,8 +175,16 @@ namespace ManiacEditor
         {
             EditFGLow.Enabled = enabled;
             EditFGHigh.Enabled = enabled;
-            EditFGLower.Enabled = enabled;
-            EditFGHigher.Enabled = enabled;
+            if (FGLowerEnabled == true)
+            {
+                EditFGLower.Enabled = enabled;
+            }
+            if (FGHigherEnabled == true)
+            {
+                EditFGHigher.Enabled = enabled;
+            }
+
+
             EditEntities.Enabled = enabled;
             
             if (enabled && EditFGLow.Checked) EditLayer = FGLow;
@@ -1078,10 +1095,17 @@ namespace ManiacEditor
             FGHigh = null;
             FGLow?.DisposeGraphics(GraphicPanel);
             FGLow = null;
-            FGHigher?.DisposeGraphics(GraphicPanel);
-            FGHigher = null;
-            FGLower?.DisposeGraphics(GraphicPanel);
-            FGLower = null;
+            if (FGLowerEnabled == true)
+            {
+                FGHigher?.DisposeGraphics(GraphicPanel);
+                FGHigher = null;
+            }
+            if (FGHigherEnabled == true)
+            {
+                FGLower?.DisposeGraphics(GraphicPanel);
+                FGLower = null;
+            }
+
 
             Background?.DisposeGraphics();
             Background = null;
@@ -1140,7 +1164,7 @@ namespace ManiacEditor
                 }
                 Scene = new Scene(SceneFilename);
 
-                SceneLayer low_layer = null, high_layer = null;
+                SceneLayer low_layer = null, high_layer = null, lower_layer = null, higher_layer = null;
 
                 foreach (SceneLayer layer in Scene.Layers)
                 {
@@ -1148,6 +1172,10 @@ namespace ManiacEditor
                         low_layer = layer;
                     else if (layer.Name == "FG High\0")
                         high_layer = layer;
+                    else if (layer.Name == "FG High\0")
+                        higher_layer = layer;
+                    else if (layer.Name == "FG High\0")
+                        lower_layer = layer;
                 }
 
                 if (low_layer == null || high_layer == null)
@@ -1159,8 +1187,20 @@ namespace ManiacEditor
 
                 FGLow = new EditorLayer(low_layer);
                 FGHigh = new EditorLayer(high_layer);
-                FGLower = new EditorLayer(lower_layer);
-                FGHigher = new EditorLayer(higher_layer);
+
+
+
+                if (lower_layer != null)
+                    FGLower = new EditorLayer(lower_layer);
+                else
+                    FGLowerEnabled = false;
+               
+                if (lower_layer != null)
+                    FGHigher = new EditorLayer(higher_layer);
+                else
+                    FGHigherEnabled = false;
+
+
 
                 entities = new EditorEntities(Scene);
 
@@ -1296,9 +1336,12 @@ namespace ManiacEditor
                 if (!IsTilesEdit())
                     Background.Draw(GraphicPanel);
 
-                GL.Translate(0, 0, LAYER_DEPTH);
-                if (ShowFGLower.Checked || EditFGLower.Checked)
-                    FGLower.Draw(GraphicPanel);
+                if (FGLowerEnabled == true)
+                {
+                    GL.Translate(0, 0, LAYER_DEPTH);
+                    if (ShowFGLower.Checked || EditFGLower.Checked)
+                        FGLower.Draw(GraphicPanel);
+                }
 
                 GL.Translate(0, 0, LAYER_DEPTH);
                 if (ShowFGLow.Checked || EditFGLow.Checked)
@@ -1313,8 +1356,12 @@ namespace ManiacEditor
                     FGHigh.Draw(GraphicPanel);
 
                 GL.Translate(0, 0, LAYER_DEPTH);
-                if (ShowFGHigher.Checked || EditFGHigher.Checked)
-                    FGHigher.Draw(GraphicPanel);
+                if (FGHigherEnabled == true)
+                {
+                    if (ShowFGHigher.Checked || EditFGHigher.Checked)
+                        FGHigher.Draw(GraphicPanel);
+                }
+
 
                 GL.PopMatrix();
                 /*if (EditEntities.Checked)
