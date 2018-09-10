@@ -14,6 +14,7 @@ using RSDKv5;
 using System.IO;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using OpenTK.Platform.Windows;
 
 namespace ManiacEditor
 {
@@ -22,6 +23,7 @@ namespace ManiacEditor
         bool dragged;
         bool startDragged;
         int lastX, lastY, draggedX, draggedY;
+        int screenX, screenY;
         Point draggedStart;
 
         int ClickedX=-1, ClickedY=-1;
@@ -93,6 +95,7 @@ namespace ManiacEditor
             GraphicPanel.LostFocus += new EventHandler(OnLostFocus);
 
             scrollTimer.Tick += ScrollTick;
+
 
             SetViewSize();
 
@@ -588,6 +591,19 @@ namespace ManiacEditor
 
         private void GraphicPanel_OnMouseMove(object sender, MouseEventArgs e)
         {
+            if (GraphicPanel.ScreenX != 0)
+            {
+                screenX = 1;
+            }
+            if (GraphicPanel.ScreenY != 0)
+            {
+                screenY = GraphicPanel.ScreenY;
+            }
+            else
+            {
+                screenY = 1;
+            }
+
             if (ClickedX != -1)
             {
                 Point clicked_point = new Point(ClickedX, ClickedY);
@@ -1247,7 +1263,7 @@ namespace ManiacEditor
             else
             {
                 //GraphicPanel.ScreenY = 0;
-                vScrollBar1.Value = 0;
+                //vScrollBar1.Value = 0;
             }
             if (hScrollBar1.Visible)
             {
@@ -1259,7 +1275,7 @@ namespace ManiacEditor
             else
             {
                 //GraphicPanel.ScreenX = 0;
-                hScrollBar1.Value = 0;
+                //hScrollBar1.Value = 0;
             }
 
             if (hScrollBar1.Visible && vScrollBar1.Visible)
@@ -1705,16 +1721,24 @@ namespace ManiacEditor
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            /*if (IsTilesEdit() && TilesClipboard != null)
+            if (screenX == 0)
             {
-                EditLayer.PasteFromClipboard(new Point((int)(ShiftX / Zoom) + EditorLayer.TILE_SIZE - 1, (int)(ShiftY / Zoom) + EditorLayer.TILE_SIZE - 1), TilesClipboard);
+                screenX = 1;
+            }
+            if (screenY == 0)
+            {
+                screenY = 1;
+            }
+            if (IsTilesEdit() && TilesClipboard != null)
+            {
+                EditLayer.PasteFromClipboard(new Point((int)(lastX / screenX) + EditorLayer.TILE_SIZE - 1, (int)(lastY / screenY) + EditorLayer.TILE_SIZE - 1), TilesClipboard);
                 UpdateEditLayerActions();
             }
             else if (IsEntitiesEdit())
             {
                 try
                 {
-                    entities.PasteFromClipboard(new Point((int)(ShiftX / Zoom), (int)(ShiftY / Zoom)), entitiesClipboard);
+                    entities.PasteFromClipboard(new Point((int)(lastX / screenX), (int)(lastY / screenY)), entitiesClipboard);
                     UpdateLastEntityAction();
                 }
                 catch (EditorEntities.TooManyEntitiesException)
@@ -1724,7 +1748,7 @@ namespace ManiacEditor
                 }
                 UpdateEntitiesToolbarList();
                 SetSelectOnlyButtonsState();
-            }*/
+            }
         }
 
         private void GraphicPanel_MouseEnter(object sender, EventArgs e)
